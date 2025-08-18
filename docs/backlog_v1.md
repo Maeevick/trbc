@@ -7,15 +7,15 @@ _Ordered by developer fun and incremental delivery potential_
 
 ### Basic HTML structure (canvas + minimal CSS)
 
-- [ ] Create `index.html` with canvas element
-- [ ] Add basic CSS: center canvas, set fixed size
-- [ ] Add page title and meta viewport for mobile
+- [x] Create `index.html` with canvas element
+- [x] Add basic CSS: center canvas, set fixed size
+- [x] Add page title and meta viewport for mobile
 
 ### Canvas 2D context setup (get drawing working)
 
-- [ ] Get canvas element in JavaScript
-- [ ] Get 2D context and test with single rectangle
-- [ ] Add canvas resize handling for different screens
+- [x] Get canvas element in JavaScript
+- [x] Get 2D context and test with single rectangle
+- [x] Add canvas resize handling for different screens
 
 ### Simple grid rendering (20x20 for testing, black/white squares)
 
