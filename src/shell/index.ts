@@ -67,14 +67,27 @@ function renderTenBySixteenViewport() {
   context.fillStyle = "#000";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
+  const cameraX = 0;
+  const cameraY = 84;
+
   for (let x = 0; x < viewportWidth; x++) {
     for (let y = 0; y < viewportHeight; y++) {
-      const pixelX = x * tileWidth;
-      const pixelY = y * tileHeight;
+      const gridX = cameraX + x;
+      const gridY = cameraY + y;
+      
+      if (gridX < 100 && gridY < 100 && gridX >= 0 && gridY >= 0) {
+        const tile = grid[gridY][gridX];
+        const pixelX = x * tileWidth;
+        const pixelY = y * tileHeight;
 
-      context.strokeStyle = "#333";
-      context.lineWidth = 1;
-      context.strokeRect(pixelX, pixelY, tileWidth, tileHeight);
+        context.strokeStyle = "#333";
+        context.lineWidth = 1;
+        context.strokeRect(pixelX, pixelY, tileWidth, tileHeight);
+        
+        context.fillStyle = "#666";
+        context.font = "8px Arial";
+        context.fillText(`${tile.x},${tile.y}`, pixelX + 2, pixelY + 10);
+      }
     }
   }
 }
