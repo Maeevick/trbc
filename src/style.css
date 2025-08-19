@@ -5,32 +5,184 @@
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #1a1a1a;
+  color: #fff;
   touch-action: none;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  padding: 1rem 0.1rem;
+  background: #333;
+  border-bottom: 2px solid #555;
+}
+
+.menu-toggle {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  line-height: 1;
+  height: auto;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-toggle:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+header h1 {
+  font-size: 1rem;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  min-width: 0;
+}
+
+.header-spacer {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.game-layout {
+  flex: 1;
+  display: flex;
+  position: relative;
+}
+
+.info-panel {
+  background: #2a2a2a;
+  border-right: 2px solid #555;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.panel-content {
+  padding: 1rem;
+  min-width: 150px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.panel-top {
+  margin-bottom: 1rem;
+}
+
+.panel-top p {
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #ccc;
+}
+
+.panel-separator {
+  border: none;
+  border-top: 1px solid #555;
+  margin: 1rem 0;
+}
+
+.panel-bottom {
+  flex-shrink: 0;
+}
+
+.game-stat {
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.game-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 }
 
 #canvas {
-  border: 2px solid #333;
+  border: 2px solid #555;
   background: #000;
-  max-width: 100vw;
-  max-height: 100vh;
   touch-action: none;
+  max-width: 100%;
+  max-height: 100%;
 }
 
+footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem;
+  background: #333;
+  border-top: 2px solid #555;
+  font-size: 0.8rem;
+  gap: 2rem;
+}
+
+/* Mobile: Transform-based animation to prevent text reflow */
 @media (max-width: 768px) {
-  body {
-    padding: 10px;
+  .info-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 200px;
+    transform: translateX(-200px);
+    z-index: 5;
   }
 
-  #canvas {
-    width: 100%;
-    height: auto;
+  .info-panel.expanded {
+    transform: translateX(0);
+  }
+}
+
+/* Desktop: Side panel always visible, hide burger menu */
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .info-panel {
+    flex: 1;
+    max-width: 600px;
+    min-width: 300px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .panel-top p {
+    font-size: 1.2rem;
+  }
+
+  .panel-bottom p {
+    font-size: 1rem;
   }
 }

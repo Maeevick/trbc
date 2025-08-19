@@ -17,11 +17,14 @@ _Ordered by developer fun and incremental delivery potential_
 - [x] Get 2D context and test with single rectangle
 - [x] Add canvas resize handling for different screens
 
-### Simple grid rendering (20x20 for testing, black/white squares)
+### Simple grid rendering (100x100 for testing, black/white squares)
 
-- [ ] Create nested loop to draw 20x20 grid
-- [ ] Alternate black/white squares (checkerboard pattern)
-- [ ] Add grid lines for visual clarity
+- [x] Create nested loop to draw 10x16 viewport
+- [x] Black background with grid lines for stealth theme
+- [x] Render grid structure foundation
+- [x] Responsive mobile/desktop layout with collapsible panel
+- [x] Game pitch and info display in side panel
+- [ ] Plug the 100x100 Game Grid to the 16x10 Viewport Grid
 
 ### Player representation (simple colored square for cat)
 

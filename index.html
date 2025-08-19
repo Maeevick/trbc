@@ -8,14 +8,51 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐈‍⬛</text></svg>">
     <link rel="stylesheet" href="src/style.css">
-
 </head>
 
 <body>
-    <h1>🐈‍⬛ The Rebel Black Cat...</h1>
-    <canvas id="canvas"></canvas>
+    <header>
+        <button class="menu-toggle">☰</button>
+        <h1>🐈‍⬛ The Rebel Black Cat...</h1>
+        <div class="header-spacer"></div>
+    </header>
+
+    <main class="game-layout">
+        <aside class="info-panel expanded">
+            <div class="panel-content">
+                <div class="panel-top">
+                    <p class="game-pitch">
+                        <em>You, 🐈‍⬛ the Rebel Black Cat will you be able to escape the Magical Maze
+                            avoiding the Witches who are exploiting your Power of Unluck?</em>
+                    </p>
+                    <p class="game-pitch">
+                        <em>Will your 9 lives be enough to pass by all the floors?</em>
+                    </p>
+
+                </div>
+
+                <hr class="panel-separator">
+
+                <div class="panel-bottom">
+                    <p class="game-stat">Current Level: 1</p>
+                    <p class="game-stat">Remaining Lives: 9</p>
+                    <p class="game-stat">Remaining Balls: 5</p>
+                    <p class="game-stat">Time Elapsed: 0:00</p>
+                </div>
+            </div>
+        </aside>
+
+        <section class="game-area">
+            <canvas id="canvas"></canvas>
+        </section>
+    </main>
+
+    <footer>
+        <span id="hello">Hello, js13k!</span><span>An humble contribution, made with 🧡 by <a
+                href='https://www.maeevick.com'>maeevick</a></span>
+    </footer>
+
     <script type="module" src="src/index.ts"></script>
-    <p id="hello"></p>
 </body>
 
 </html>
