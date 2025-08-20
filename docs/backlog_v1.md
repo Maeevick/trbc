@@ -24,7 +24,7 @@ _Ordered by developer fun and incremental delivery potential_
 - [x] Render grid structure foundation
 - [x] Responsive mobile/desktop layout with collapsible panel
 - [x] Game pitch and info display in side panel
-- [ ] Plug the 100x100 Game Grid to the 16x10 Viewport Grid
+- [x] Plug the 100x100 Game Grid to the 16x10 Viewport Grid
 
 ### Player representation (simple colored square for cat)
 
@@ -47,17 +47,19 @@ _Ordered by developer fun and incremental delivery potential_
 - [ ] Prevent movement to invalid tiles
 - [ ] Add visual feedback for valid moves
 
-### Camera zoom (pinch to zoom in/out)
+### Camera zoom (~~pinch~~ click pad to zoom in/out)
 
-- [ ] Detect pinch gesture (scale change)
-- [ ] Apply zoom to canvas transform
-- [ ] Limit min/max zoom levels
+- [ ] ~~Detect pinch gesture (scale change)~~
+- [x] 'old-school game pad'
+- [x] Apply zoom to canvas transform
+- [x] Limit min/max zoom levels
 
-### Camera pan (two-finger drag when zoomed)
+### Camera pan (~~two-finger drag~~ click pad when zoomed)
 
-- [ ] Detect two-finger touch move
-- [ ] Update canvas translation on drag
-- [ ] Prevent panning outside grid bounds
+- [ ] ~~Detect two-finger touch move~~~
+- [x] 'old-school game pad'
+- [x] Update canvas translation on drag
+- [x] Prevent panning outside grid bounds
 
 ## Maze Generation _(The Fun Part!)_
 
