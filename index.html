@@ -18,7 +18,7 @@
     </header>
 
     <main class="game-layout">
-        <aside class="info-panel expanded">
+        <aside class="info-panel">
             <div class="panel-content">
                 <div class="panel-top">
                     <p class="game-pitch">
@@ -33,11 +33,36 @@
 
                 <hr class="panel-separator">
 
+                <div class="panel-middle">
+                    <div class="desktop-controls">
+                        <h3>View Controls</h3>
+                        <div class="control-row">
+                            <div class="zoom-controls">
+                                <button id="zoom-in" class="zoom-btn">+</button>
+                                <button id="zoom-center" class="zoom-center">🔎</button>
+                                <button id="zoom-out" class="zoom-btn">−</button>
+                            </div>
+                            <div class="pan-grid">
+                                <button id="pan-nw" class="pan-btn">↖️</button>
+                                <button id="pan-n" class="pan-btn">⬆️</button>
+                                <button id="pan-ne" class="pan-btn">↗️</button>
+                                <button id="pan-w" class="pan-btn">⬅️</button>
+                                <button id="pan-center" class="pan-center">🧭</button>
+                                <button id="pan-e" class="pan-btn">➡️</button>
+                                <button id="pan-sw" class="pan-btn">↙️</button>
+                                <button id="pan-s" class="pan-btn">⬇️</button>
+                                <button id="pan-se" class="pan-btn">↘️</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="panel-bottom">
                     <p class="game-stat">Current Level: 1</p>
                     <p class="game-stat">Remaining Lives: 9</p>
                     <p class="game-stat">Remaining Balls: 5</p>
                     <p class="game-stat">Time Elapsed: 0:00</p>
+                    <p id="position" class="game-stat">Current Position: X:Y</p>
                 </div>
             </div>
         </aside>
@@ -45,12 +70,36 @@
         <section class="game-area">
             <canvas id="canvas"></canvas>
         </section>
+
+        <div class="mobile-controls-panel">
+            <div class="control-row">
+                <div class="zoom-controls">
+                    <button id="mobile-zoom-in" class="zoom-btn">+</button>
+                    <button id="mobile-zoom-center" class="zoom-center">🔎</button>
+                    <button id="mobile-zoom-out" class="zoom-btn">−</button>
+                </div>
+                <div class="pan-grid">
+                    <button id="mobile-pan-nw" class="pan-btn">↖️</button>
+                    <button id="mobile-pan-n" class="pan-btn">⬆️</button>
+                    <button id="mobile-pan-ne" class="pan-btn">↗️</button>
+                    <button id="mobile-pan-w" class="pan-btn">⬅️</button>
+                    <button id="mobile-pan-center" class="pan-center">🧭</button>
+                    <button id="mobile-pan-e" class="pan-btn">➡️</button>
+                    <button id="mobile-pan-sw" class="pan-btn">↙️</button>
+                    <button id="mobile-pan-s" class="pan-btn">⬇️</button>
+                    <button id="mobile-pan-se" class="pan-btn">↘️</button>
+                </div>
+            </div>
     </main>
+
+    <div id="debug-panel" class="debug-panel">
+        <div id="fps" class="debug-stat">FPS: --</div>
+        <div id="zoom" class="debug-stat">Zoom: --</div>
+    </div>
 
     <footer>
         <span id="hello">Hello, js13k!</span><span>An humble contribution, made with 🧡 by <a
-                href='https://www.maeevick.com'>maeevick</a></span>
-        <span id="fps" style="color: red;">FPS: --</span>
+                href='https://www.maeevick.com' target="_blank">maeevick</a></span>
     </footer>
 
     <script type="module" src="src/index.ts"></script>

@@ -1,3 +1,6 @@
+export const GRID_START = 0;
+export const GRID_END = 100;
+
 type Tile = {
   x: number;
   y: number;
@@ -5,10 +8,10 @@ type Tile = {
 
 type Grid = Tile[][];
 
-export function generateGrid({ size } = { size: 100 }): Grid {
+export function generateGrid({ size } = { size: GRID_END }): Grid {
   const gridData: Tile[][] = [];
 
-  for (let y = 0; y < size; y++) {
+  for (let y = GRID_START; y < size; y++) {
     const row: Tile[] = [];
     for (let x = 0; x < size; x++) {
       row[x] = { x, y };

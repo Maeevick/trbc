@@ -1,3 +1,38 @@
+:root {
+  --color-bg: #1a1a1a;
+  --color-surface: #2a2a2a;
+  --color-surface-hover: #333;
+  --color-surface-active: #222;
+  --color-surface-dark: #111;
+  --color-border: #555;
+  --color-border-light: #777;
+  --color-border-dark: #333;
+  --color-text: #fff;
+  --color-text-muted: #ccc;
+  --color-text-subtle: #888;
+  --color-text-disabled: #444;
+  --color-text-debug: #666;
+  --color-link: #aaccff;
+  --color-link-hover: #ccddff;
+  --color-link-visited: #ddaaff;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+
+  --border-width: 2px;
+  --border-radius: 4px;
+  --border-radius-lg: 6px;
+
+  --btn-size-sm: 36px;
+  --btn-size-md: 44px;
+
+  --header-height: 78px;
+  --footer-height: 50.5px;
+  --panel-width: 200px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,34 +43,35 @@ body {
   min-height: 100vh;
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #1a1a1a;
-  color: #fff;
+  background: var(--color-bg);
+  color: var(--color-text);
   touch-action: none;
   user-select: none;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 header {
   display: flex;
-  padding: 1rem 0.1rem;
-  background: #333;
-  border-bottom: 2px solid #555;
+  padding: var(--spacing-md) 0.1rem;
+  background: var(--color-surface-hover);
+  border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .menu-toggle {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--color-text);
   font-size: 1.5rem;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 4px;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
   flex-shrink: 0;
   line-height: 1;
   height: auto;
-  min-height: 44px;
-  min-width: 44px;
+  min-height: var(--btn-size-md);
+  min-width: var(--btn-size-md);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,26 +100,38 @@ header h1 {
 }
 
 .header-spacer {
-  width: 44px;
-  height: 44px;
+  width: var(--btn-size-md);
+  height: var(--btn-size-md);
   flex-shrink: 0;
 }
 
 .game-layout {
   flex: 1;
   display: flex;
-  position: relative;
+  flex-direction: column;
 }
 
 .info-panel {
-  background: #2a2a2a;
-  border-right: 2px solid #555;
+  background: var(--color-surface);
+  border-right: var(--border-width) solid var(--color-border);
   transition: all 0.3s ease;
-  overflow: hidden;
+  position: fixed;
+  left: calc(-1 * var(--panel-width));
+  top: var(--header-height);
+  bottom: var(--footer-height);
+  width: var(--panel-width);
+  transform: translateX(0);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-panel.expanded {
+  transform: translateX(var(--panel-width));
 }
 
 .panel-content {
-  padding: 1rem;
+  padding: var(--spacing-md);
   min-width: 150px;
   height: 100%;
   display: flex;
@@ -92,20 +140,20 @@ header h1 {
 }
 
 .panel-top {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .panel-top p {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
   font-size: 0.85rem;
   line-height: 1.4;
-  color: #ccc;
+  color: var(--color-text-muted);
 }
 
 .panel-separator {
   border: none;
-  border-top: 1px solid #555;
-  margin: 1rem 0;
+  border-top: 1px solid var(--color-border);
+  margin: var(--spacing-md) 0;
 }
 
 .panel-bottom {
@@ -133,46 +181,218 @@ header h1 {
   touch-action: none;
   max-width: 100%;
   max-height: 100%;
+  display: none;
+}
+
+.debug-panel {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  z-index: 999;
+  backdrop-filter: blur(5px);
+}
+
+.debug-stat {
+  margin-bottom: 0.25rem;
+  font-family: monospace;
+  color: var(--color-text-subtle);
+}
+
+.desktop-controls {
+  display: none;
+}
+
+.control-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-controls-panel {
+  background: #2a2a2a;
+  border-top: 2px solid #555;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.pan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.25rem;
+  max-width: 120px;
+}
+
+.pan-btn,
+.zoom-btn {
+  background: #333;
+  border: 2px solid #555;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.pan-btn:hover,
+.zoom-btn:hover {
+  background: #444;
+  border-color: #777;
+  transform: translateY(-1px);
+}
+
+.pan-btn:active,
+.zoom-btn:active {
+  background: #222;
+  transform: translateY(0);
+}
+
+.pan-btn:disabled,
+.zoom-btn:disabled {
+  background: #1a1a1a;
+  border-color: #333;
+  color: #444;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pan-btn:disabled:hover,
+.zoom-btn:disabled:hover {
+  background: #1a1a1a;
+  border-color: #333;
+  transform: none;
+}
+
+.pan-center {
+  background: #222;
+  border: 2px solid #444;
+  color: #888;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.pan-center:hover {
+  background: #333;
+  border-color: #666;
+  color: #aaa;
+  transform: translateY(-1px);
+}
+
+.pan-center:active {
+  background: #111;
+  transform: translateY(0);
+}
+
+.zoom-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.zoom-center {
+  background: #222;
+  border: 2px solid #444;
+  color: #888;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.zoom-center:hover {
+  background: #333;
+  border-color: #666;
+  color: #aaa;
+  transform: translateY(-1px);
+}
+
+.zoom-center:active {
+  background: #111;
+  transform: translateY(0);
+}
+
+.zoom-btn {
+  font-weight: bold;
 }
 
 footer {
   display: flex;
   justify-content: center;
   text-align: center;
-  padding: 0.5rem;
-  background: #333;
-  border-top: 2px solid #555;
+  padding: var(--spacing-sm);
+  background: var(--color-surface-hover);
+  border-top: var(--border-width) solid var(--color-border);
   font-size: 0.8rem;
   gap: 2rem;
 }
 
-/* Mobile: Transform-based animation to prevent text reflow */
-@media (max-width: 768px) {
-  .info-panel {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 200px;
-    transform: translateX(-200px);
-    z-index: 5;
-  }
-
-  .info-panel.expanded {
-    transform: translateX(0);
-  }
+footer a {
+  color: var(--color-link);
+  text-decoration: none;
 }
 
-/* Desktop: Side panel always visible, hide burger menu */
-@media (min-width: 769px) {
+footer a:visited {
+  color: var(--color-link-visited);
+}
+
+footer a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+
+@media (min-width: 600px) {
+  body {
+    overflow: visible;
+  }
+
   .menu-toggle {
     display: none;
   }
 
+  .game-layout {
+    flex-direction: row;
+  }
+
   .info-panel {
+    position: static;
+    transform: none;
     flex: 1;
     max-width: 600px;
     min-width: 300px;
+    top: auto;
+    bottom: auto;
+    width: auto;
+  }
+
+  .game-area {
+    align-items: flex-start;
   }
 
   header h1 {
@@ -185,5 +405,49 @@ footer {
 
   .panel-bottom p {
     font-size: 1rem;
+  }
+
+  .desktop-controls {
+    display: block;
+  }
+
+  .desktop-controls h3 {
+    margin: 0 0 1rem 0;
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .mobile-controls-panel {
+    display: none;
+  }
+
+  .pan-btn,
+  .zoom-btn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.75rem;
+    font-size: 1.2rem;
+  }
+
+  .pan-grid {
+    max-width: 150px;
+    gap: 0.5rem;
+  }
+
+  .zoom-controls {
+    gap: 0.5rem;
+  }
+
+  .zoom-btn {
+    font-size: 1.2rem;
+  }
+
+  .pan-center,
+  .zoom-center {
+    font-size: 1.2rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.75rem;
   }
 }

@@ -1,3 +1,3 @@
-import { generateGrid } from "./grid.ts";
+import { GRID_START, GRID_END, generateGrid } from "./grid.ts";
 
-export { generateGrid };
+export { GRID_START, GRID_END, generateGrid };
