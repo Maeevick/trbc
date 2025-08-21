@@ -59,4 +59,55 @@ function renderViewport(state: State) {
       }
     }
   }
+
+  const catScreenX = (state.game.cat.x - state.view.camera.x) * tileSize;
+  const catScreenY = (state.game.cat.y - state.view.camera.y) * tileSize;
+
+  if (
+    catScreenX >= 0 &&
+    catScreenX < state.view.canvas.width &&
+    catScreenY >= 0 &&
+    catScreenY < state.view.canvas.height
+  ) {
+    context.strokeStyle = "#ff8800";
+    context.lineWidth = 2;
+    context.strokeRect(catScreenX, catScreenY, tileSize, tileSize);
+
+    context.fillStyle = "#fff";
+    context.font = `${Math.floor(tileSize * 0.4)}px Arial`;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText(
+      state.game.cat.skin,
+      catScreenX + tileSize / 2,
+      catScreenY + tileSize / 2,
+    );
+  }
+
+  state.game.witches.forEach((witch) => {
+    const witchScreenX = (witch.x - state.view.camera.x) * tileSize;
+    const witchScreenY = (witch.y - state.view.camera.y) * tileSize;
+
+    if (
+      witchScreenX >= 0 &&
+      witchScreenX < state.view.canvas.width &&
+      witchScreenY >= 0 &&
+      witchScreenY < state.view.canvas.height
+    ) {
+      context.strokeStyle = "#ff4444";
+      context.lineWidth = 2;
+      context.strokeRect(witchScreenX, witchScreenY, tileSize, tileSize);
+
+      context.fillStyle = "#fff";
+      context.font = `${Math.floor(tileSize * 0.4)}px Arial`;
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+
+      context.fillText(
+        witch.skin,
+        witchScreenX + tileSize / 2,
+        witchScreenY + tileSize / 2,
+      );
+    }
+  });
 }
