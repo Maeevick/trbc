@@ -1,12 +1,12 @@
 export const GRID_START = 0;
 export const GRID_END = 100;
 
-type Tile = {
+export type Tile = {
   x: number;
   y: number;
 };
 
-type Grid = Tile[][];
+export type Grid = Tile[][];
 
 export function generateGrid({ size } = { size: GRID_END }): Grid {
   const gridData: Tile[][] = [];

@@ -1,6 +1,8 @@
-export function updatePositionInfo(x: number, y: number) {
+import { State } from "../..";
+
+export function updatePositionInfo(state: State) {
   const positionElement = document.getElementById(
     "position",
   ) as HTMLParagraphElement;
-  positionElement.innerText = `Current Position: ${x}:${y}`;
+  positionElement.innerText = `Current Position: ${state.game.cat.x}:${state.game.cat.y}`;
 }

@@ -1,79 +1,83 @@
+import { type State } from "..";
 import { GRID_END, GRID_START } from "../core";
 import { updateZoomReminder } from "./debug-panel/zoom-reminder";
 
-const DEFAULT_VIEWPORT_SIZE = 7;
-const DEFAULT_CAMERA_X = Math.round(Math.random() * 50) + 1;
-const DEFAULT_CAMERA_Y = Math.round(Math.random() * 50) + 1;
-
+export const DEFAULT_VIEWPORT_SIZE_AND_ZOOM = 7;
 export const ZOOM_IN_MAX = 3;
 export const ZOOM_OUT_MAX = 100;
 export const THRESHOLD_TILE_SIZE_MAX_ZOOM = 5;
 export const THRESHOLD_TACTICAL_MODE = 16;
 
-let cameraX = DEFAULT_CAMERA_X;
-let cameraY = DEFAULT_CAMERA_Y;
-let viewportSize = DEFAULT_VIEWPORT_SIZE;
-
-function moveCamera(dx: number, dy: number, canvas: HTMLCanvasElement) {
-  cameraX = Math.max(
+function moveCamera(state: State, dx: number, dy: number) {
+  state.view.camera.x = Math.max(
     GRID_START,
-    Math.min(GRID_END - viewportSize, cameraX + dx),
+    Math.min(GRID_END - state.view.camera.z, state.view.camera.x + dx),
   );
-  cameraY = Math.max(
+  state.view.camera.y = Math.max(
     GRID_START,
-    Math.min(GRID_END - viewportSize, cameraY + dy),
+    Math.min(GRID_END - state.view.camera.z, state.view.camera.y + dy),
   );
-  updateButtonStates(canvas);
+  updateButtonStates(state);
 }
 
-function setCameraPosition(
-  newX: number,
-  newY: number,
-  canvas: HTMLCanvasElement,
-) {
-  cameraX = Math.max(GRID_START, Math.min(GRID_END - viewportSize, newX));
-  cameraY = Math.max(GRID_START, Math.min(GRID_END - viewportSize, newY));
-  updateButtonStates(canvas);
+function setCameraPosition(state: State, newX: number, newY: number) {
+  state.view.camera.x = Math.max(
+    GRID_START,
+    Math.min(GRID_END - state.view.camera.z, newX),
+  );
+  state.view.camera.y = Math.max(
+    GRID_START,
+    Math.min(GRID_END - state.view.camera.z, newY),
+  );
+  updateButtonStates(state);
 }
 
-function recenterCameraOnZoom(
-  centerX: number,
-  centerY: number,
-  canvas: HTMLCanvasElement,
-) {
-  const newCameraX = centerX - Math.floor(viewportSize / 2);
-  const newCameraY = centerY - Math.floor(viewportSize / 2);
-  setCameraPosition(newCameraX, newCameraY, canvas);
+function recenterCameraOnZoom(state: State, centerX: number, centerY: number) {
+  const newCameraX = centerX - Math.floor(state.view.camera.z / 2);
+  const newCameraY = centerY - Math.floor(state.view.camera.z / 2);
+  setCameraPosition(state, newCameraX, newCameraY);
 }
 
-function updateButtonStates(canvas: HTMLCanvasElement) {
+function updateButtonStates(state: State) {
   const panButtons = [
     {
       ids: ["pan-nw", "mobile-pan-nw"],
-      canMove: cameraX > GRID_START && cameraY > GRID_START,
+      canMove:
+        state.view.camera.x > GRID_START && state.view.camera.y > GRID_START,
     },
-    { ids: ["pan-n", "mobile-pan-n"], canMove: cameraY > GRID_START },
+    {
+      ids: ["pan-n", "mobile-pan-n"],
+      canMove: state.view.camera.y > GRID_START,
+    },
     {
       ids: ["pan-ne", "mobile-pan-ne"],
-      canMove: cameraX < GRID_END - viewportSize && cameraY > GRID_START,
+      canMove:
+        state.view.camera.x < GRID_END - state.view.camera.z &&
+        state.view.camera.y > GRID_START,
     },
-    { ids: ["pan-w", "mobile-pan-w"], canMove: cameraX > GRID_START },
+    {
+      ids: ["pan-w", "mobile-pan-w"],
+      canMove: state.view.camera.x > GRID_START,
+    },
     {
       ids: ["pan-e", "mobile-pan-e"],
-      canMove: cameraX < GRID_END - viewportSize,
+      canMove: state.view.camera.x < GRID_END - state.view.camera.z,
     },
     {
       ids: ["pan-sw", "mobile-pan-sw"],
-      canMove: cameraX > GRID_START && cameraY < GRID_END - viewportSize,
+      canMove:
+        state.view.camera.x > GRID_START &&
+        state.view.camera.y < GRID_END - state.view.camera.z,
     },
     {
       ids: ["pan-s", "mobile-pan-s"],
-      canMove: cameraY < GRID_END - viewportSize,
+      canMove: state.view.camera.y < GRID_END - state.view.camera.z,
     },
     {
       ids: ["pan-se", "mobile-pan-se"],
       canMove:
-        cameraX < GRID_END - viewportSize && cameraY < GRID_END - viewportSize,
+        state.view.camera.x < GRID_END - state.view.camera.z &&
+        state.view.camera.y < GRID_END - state.view.camera.z,
     },
   ];
 
@@ -92,23 +96,23 @@ function updateButtonStates(canvas: HTMLCanvasElement) {
   zoomInIds.forEach((id) => {
     const button = document.getElementById(id) as HTMLButtonElement;
     if (button) {
-      button.disabled = viewportSize <= ZOOM_IN_MAX;
+      button.disabled = state.view.camera.z <= ZOOM_IN_MAX;
     }
   });
 
   zoomOutIds.forEach((id) => {
     const button = document.getElementById(id) as HTMLButtonElement;
     if (button) {
-      const nextViewportSize = viewportSize + 2;
-      const nextTileSize = canvas.width / nextViewportSize;
+      const nextViewportSizeAndZoom = state.view.camera.z + 2;
+      const nextTileSize = state.view.canvas.width / nextViewportSizeAndZoom;
       button.disabled =
-        nextViewportSize > ZOOM_OUT_MAX + 1 ||
+        nextViewportSizeAndZoom > ZOOM_OUT_MAX + 1 ||
         nextTileSize < THRESHOLD_TILE_SIZE_MAX_ZOOM;
     }
   });
 }
 
-export function setupControlButtons(canvas: HTMLCanvasElement) {
+export function setupControlButtons(state: State) {
   const panButtons = [
     { ids: ["pan-nw", "mobile-pan-nw"], dx: -1, dy: -1 },
     { ids: ["pan-n", "mobile-pan-n"], dx: 0, dy: -1 },
@@ -125,7 +129,7 @@ export function setupControlButtons(canvas: HTMLCanvasElement) {
       const button = document.getElementById(id) as HTMLButtonElement;
       if (button) {
         button.addEventListener("click", () => {
-          moveCamera(dx, dy, canvas);
+          moveCamera(state, dx, dy);
         });
       }
     });
@@ -138,13 +142,15 @@ export function setupControlButtons(canvas: HTMLCanvasElement) {
     const button = document.getElementById(id) as HTMLButtonElement;
     if (button) {
       button.addEventListener("click", () => {
-        if (viewportSize > ZOOM_IN_MAX) {
-          const centerX = cameraX + Math.floor(viewportSize / 2);
-          const centerY = cameraY + Math.floor(viewportSize / 2);
+        if (state.view.camera.z > ZOOM_IN_MAX) {
+          const centerX =
+            state.view.camera.x + Math.floor(state.view.camera.z / 2);
+          const centerY =
+            state.view.camera.y + Math.floor(state.view.camera.z / 2);
 
-          viewportSize = Math.max(ZOOM_IN_MAX, viewportSize - 2);
-          recenterCameraOnZoom(centerX, centerY, canvas);
-          updateZoomReminder(viewportSize);
+          state.view.camera.z = Math.max(ZOOM_IN_MAX, state.view.camera.z - 2);
+          recenterCameraOnZoom(state, centerX, centerY);
+          updateZoomReminder(state);
         }
       });
     }
@@ -154,13 +160,15 @@ export function setupControlButtons(canvas: HTMLCanvasElement) {
     const button = document.getElementById(id) as HTMLButtonElement;
     if (button) {
       button.addEventListener("click", () => {
-        if (viewportSize <= ZOOM_OUT_MAX) {
-          const centerX = cameraX + Math.floor(viewportSize / 2);
-          const centerY = cameraY + Math.floor(viewportSize / 2);
+        if (state.view.camera.z <= ZOOM_OUT_MAX) {
+          const centerX =
+            state.view.camera.x + Math.floor(state.view.camera.z / 2);
+          const centerY =
+            state.view.camera.y + Math.floor(state.view.camera.z / 2);
 
-          viewportSize = Math.min(ZOOM_OUT_MAX, viewportSize + 2);
-          recenterCameraOnZoom(centerX, centerY, canvas);
-          updateZoomReminder(viewportSize);
+          state.view.camera.z = Math.min(ZOOM_OUT_MAX, state.view.camera.z + 2);
+          recenterCameraOnZoom(state, centerX, centerY);
+          updateZoomReminder(state);
         }
       });
     }
@@ -171,9 +179,11 @@ export function setupControlButtons(canvas: HTMLCanvasElement) {
     const button = document.getElementById(id) as HTMLButtonElement;
     if (button) {
       button.addEventListener("click", () => {
-        const idealCameraX = DEFAULT_CAMERA_X - Math.floor(viewportSize / 2);
-        const idealCameraY = DEFAULT_CAMERA_Y - Math.floor(viewportSize / 2);
-        setCameraPosition(idealCameraX, idealCameraY, canvas);
+        const idealCameraX =
+          state.game.cat.x - Math.floor(state.view.camera.z / 2);
+        const idealCameraY =
+          state.game.cat.y - Math.floor(state.view.camera.z / 2);
+        setCameraPosition(state, idealCameraX, idealCameraY);
       });
     }
   });
@@ -183,22 +193,20 @@ export function setupControlButtons(canvas: HTMLCanvasElement) {
     const button = document.getElementById(id) as HTMLButtonElement;
     if (button) {
       button.addEventListener("click", () => {
-        const centerX = cameraX + Math.floor(viewportSize / 2);
-        const centerY = cameraY + Math.floor(viewportSize / 2);
+        const centerX =
+          state.view.camera.x + Math.floor(state.view.camera.z / 2);
+        const centerY =
+          state.view.camera.y + Math.floor(state.view.camera.z / 2);
 
-        viewportSize = DEFAULT_VIEWPORT_SIZE;
-        recenterCameraOnZoom(centerX, centerY, canvas);
-        updateZoomReminder(viewportSize);
+        state.view.camera.z = DEFAULT_VIEWPORT_SIZE_AND_ZOOM;
+        recenterCameraOnZoom(state, centerX, centerY);
+        updateZoomReminder(state);
       });
     }
   });
 }
 
-export function initializeCameraControls(canvas: HTMLCanvasElement) {
-  updateZoomReminder(viewportSize);
-  updateButtonStates(canvas);
-}
-
-export function getCameraState() {
-  return { cameraX, cameraY, viewportSize };
+export function initializeCameraControls(state: State) {
+  updateZoomReminder(state);
+  updateButtonStates(state);
 }
