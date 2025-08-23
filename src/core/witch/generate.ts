@@ -1,13 +1,17 @@
-import { GRID_END, GRID_START, Witch } from ".";
+import { GRID_END, GRID_START, Witch } from "..";
 
 const SKINS: ("🧙‍♀️" | "🧙")[] = ["🧙‍♀️", "🧙"];
 const THRESHOLD_CLOSEST_MANATHAN_DISTANCE_POSSIBLE = 2;
 const THRESHOLD_FAREST_MANATHAN_DISTANCE_POSSIBLE = 3;
 
-export function generateWitchPositions(catX: number, catY: number): Witch[] {
+export function generateWitches(
+  catX: number,
+  catY: number,
+  witchesCount: number = 2,
+): Witch[] {
   const witches: Witch[] = [];
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < witchesCount; i++) {
     let witchX: number, witchY: number, distance: number;
 
     do {

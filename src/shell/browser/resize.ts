@@ -1,4 +1,4 @@
-import { State } from "..";
+import { State } from "../..";
 
 export function setupCanvasResize(state: State) {
   function resizeCanvas() {

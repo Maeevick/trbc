@@ -1,17 +1,17 @@
 import { type State } from "..";
 
-import { setupCanvasResize } from "./browser-resize";
+import { setupCanvasResize } from "./browser/resize";
 import { runFPS } from "./debug-panel/fps-runner";
 import { setupPanelToggle } from "./hud";
 import {
   setupControlButtons,
   initializeCameraControls,
   DEFAULT_VIEWPORT_SIZE_AND_ZOOM,
-} from "./camera-controls";
-import { startGameLoop } from "./game-loop";
+} from "./camera/controls";
+import { startGameLoop } from "./game/loop";
+import { setupCanvasInteraction } from "./game/interaction";
 
-import { generateGrid, type Position } from "../core";
-import { generateWitchPositions } from "../core/witch";
+import { generateWitches, generateGrid, type Position } from "../core";
 
 export function init() {
   const initialPosition: Position = {
@@ -26,8 +26,10 @@ export function init() {
         x: initialPosition.x,
         y: initialPosition.y,
         skin: "🐈‍⬛",
+        actions: 5,
+        availablePositions: new Set(),
       },
-      witches: generateWitchPositions(initialPosition.x, initialPosition.y),
+      witches: generateWitches(initialPosition.x, initialPosition.y),
     },
     view: {
       canvas: document.getElementById("canvas") as HTMLCanvasElement,
@@ -42,6 +44,7 @@ export function init() {
   setupPanelToggle();
   setupCanvasResize(state);
   setupControlButtons(state);
+  setupCanvasInteraction(state);
   initializeCameraControls(state);
   startGameLoop(state, runFPS());
 }

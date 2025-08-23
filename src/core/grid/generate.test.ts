@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { generateGrid } from "./grid";
+import { generateGrid } from "./generate";
 
 test("when generating a 100x100 grid, it has exactly 100 rows", () => {
   const grid = generateGrid();
@@ -16,7 +16,7 @@ test("when generating a 100x100 grid, it has exactly 100 columns", () => {
 test("when generating a 20x20 grid, it has exactly 20 rows", () => {
   const grid = generateGrid({ size: 20 });
   expect(grid.length === 20).toBe(true);
-  expect(grid.every((row) => row.length === 20)).toStrictEqual(true);
+  expect(grid.every((row) => row.length === 20)).toBe(true);
 });
 
 test("when accessing any position in 100x100 grid, it returns a valid tile", () => {

@@ -1,13 +1,13 @@
-import { State } from "..";
+import { State } from "../..";
 
-import { type FPSRunner } from "./debug-panel/fps-runner";
-import { updatePositionInfo } from "./info-panel";
+import { type FPSRunner } from "../debug-panel/fps-runner";
+import { updatePositionInfo } from "../info-panel/current-position";
 import {
   THRESHOLD_TACTICAL_MODE,
   THRESHOLD_TILE_SIZE_MAX_ZOOM,
-} from "./camera-controls";
+} from "../camera/controls";
 
-import { GRID_END, GRID_START } from "../core";
+import { GRID_END, GRID_START } from "../../core";
 
 export function startGameLoop(state: State, fpsRunner: FPSRunner) {
   function gameLoop() {
@@ -54,7 +54,13 @@ function renderViewport(state: State) {
         if (showTileDetails) {
           context.fillStyle = "#666";
           context.font = "8px Arial";
-          context.fillText(`${tile.x},${tile.y}`, pixelX + 2, pixelY + 10);
+          context.textAlign = "center";
+          context.textBaseline = "top";
+          context.fillText(
+            `${tile.x}:${tile.y}`,
+            pixelX + tileSize / 2,
+            pixelY + 2,
+          );
         }
       }
     }
@@ -107,6 +113,35 @@ function renderViewport(state: State) {
         witch.skin,
         witchScreenX + tileSize / 2,
         witchScreenY + tileSize / 2,
+      );
+    }
+  });
+
+  // Render highlighted tiles (available moves)
+  state.game.cat.availablePositions.forEach((tileKey) => {
+    const [x, y] = tileKey.split(",").map(Number);
+    const highlightScreenX = (x - state.view.camera.x) * tileSize;
+    const highlightScreenY = (y - state.view.camera.y) * tileSize;
+
+    // Only render if visible in viewport
+    if (
+      highlightScreenX >= 0 &&
+      highlightScreenX < state.view.canvas.width &&
+      highlightScreenY >= 0 &&
+      highlightScreenY < state.view.canvas.height
+    ) {
+      // Draw green highlight for available moves
+      context.fillStyle = "rgba(0, 255, 0, 0.3)";
+      context.fillRect(highlightScreenX, highlightScreenY, tileSize, tileSize);
+
+      // Draw green border
+      context.strokeStyle = "#00ff00";
+      context.lineWidth = 2;
+      context.strokeRect(
+        highlightScreenX,
+        highlightScreenY,
+        tileSize,
+        tileSize,
       );
     }
   });

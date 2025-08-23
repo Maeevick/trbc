@@ -1,6 +1,6 @@
-import { type State } from "..";
-import { GRID_END, GRID_START } from "../core";
-import { updateZoomReminder } from "./debug-panel/zoom-reminder";
+import { type State } from "../..";
+import { GRID_END, GRID_START } from "../../core";
+import { updateZoomReminder } from "../debug-panel/zoom-reminder";
 
 export const DEFAULT_VIEWPORT_SIZE_AND_ZOOM = 7;
 export const ZOOM_IN_MAX = 3;

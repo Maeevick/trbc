@@ -1,8 +1,12 @@
-import { type Grid, type Tile } from "./grid";
+import { type Grid, type Tile } from "./grid/generate";
 
 export type Position = Tile;
 
-export type TheRebelBlackCat = Position & { skin: "🐈‍⬛" };
+export type TheRebelBlackCat = Position & {
+  skin: "🐈‍⬛";
+  actions: number;
+  availablePositions: Set<string>;
+};
 
 export type Witch = Position & {
   skin: "🧙‍♀️" | "🧙";
