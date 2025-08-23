@@ -1,24 +1,43 @@
 import { GameState } from "..";
+import {
+  calculateMovementCost,
+  isAlreadyOccupied,
+  isOutOfGridBounds,
+} from "./pathfinding";
+
+function isMovePossible(cost: number | null, available: number) {
+  return cost !== null && cost <= available;
+}
 
 export function selectCat(gameState: GameState) {
   gameState.cat.availablePositions.clear();
 
   for (let dx = -gameState.cat.actions; dx <= gameState.cat.actions; dx++) {
     for (let dy = -gameState.cat.actions; dy <= gameState.cat.actions; dy++) {
-      const distance = Math.abs(dx) + Math.abs(dy);
+      if (dx === 0 && dy === 0) continue;
 
-      if (distance > 0 && distance <= gameState.cat.actions) {
-        const newX = gameState.cat.x + dx;
-        const newY = gameState.cat.y + dy;
+      const newX = gameState.cat.x + dx;
+      const newY = gameState.cat.y + dy;
 
-        if (newX >= 0 && newX < 100 && newY >= 0 && newY < 100) {
-          const witchAtPosition = gameState.witches.find(
-            (w) => w.x === newX && w.y === newY,
-          );
-          if (!witchAtPosition) {
-            gameState.cat.availablePositions.add(`${newX},${newY}`);
-          }
-        }
+      if (isOutOfGridBounds(newX, newY)) {
+        continue;
+      }
+
+      if (isAlreadyOccupied(gameState.witches, newX, newY)) {
+        continue;
+      }
+
+      if (
+        isMovePossible(
+          calculateMovementCost(
+            gameState,
+            { x: gameState.cat.x, y: gameState.cat.y },
+            { x: newX, y: newY },
+          ),
+          gameState.cat.actions,
+        )
+      ) {
+        gameState.cat.availablePositions.add(`${newX},${newY}`);
       }
     }
   }

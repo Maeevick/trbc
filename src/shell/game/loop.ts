@@ -2,6 +2,7 @@ import { State } from "../..";
 
 import { type FPSRunner } from "../debug-panel/fps-runner";
 import { updatePositionInfo } from "../info-panel/current-position";
+import { updateActionsInfo } from "../info-panel/current-actions";
 import {
   THRESHOLD_TACTICAL_MODE,
   THRESHOLD_TILE_SIZE_MAX_ZOOM,
@@ -14,6 +15,7 @@ export function startGameLoop(state: State, fpsRunner: FPSRunner) {
     fpsRunner.updateFPS();
     renderViewport(state);
     updatePositionInfo(state);
+    updateActionsInfo(state);
     requestAnimationFrame(gameLoop);
   }
   gameLoop();
@@ -117,24 +119,20 @@ function renderViewport(state: State) {
     }
   });
 
-  // Render highlighted tiles (available moves)
   state.game.cat.availablePositions.forEach((tileKey) => {
     const [x, y] = tileKey.split(",").map(Number);
     const highlightScreenX = (x - state.view.camera.x) * tileSize;
     const highlightScreenY = (y - state.view.camera.y) * tileSize;
 
-    // Only render if visible in viewport
     if (
       highlightScreenX >= 0 &&
       highlightScreenX < state.view.canvas.width &&
       highlightScreenY >= 0 &&
       highlightScreenY < state.view.canvas.height
     ) {
-      // Draw green highlight for available moves
       context.fillStyle = "rgba(0, 255, 0, 0.3)";
       context.fillRect(highlightScreenX, highlightScreenY, tileSize, tileSize);
 
-      // Draw green border
       context.strokeStyle = "#00ff00";
       context.lineWidth = 2;
       context.strokeRect(

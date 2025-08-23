@@ -1,5 +1,5 @@
 import { type State } from "../..";
-import { selectCat, deselectCat } from "../../core";
+import { selectCat, deselectCat, moveCat } from "../../core";
 
 export function setupCanvasInteraction(state: State) {
   const canvas = state.view.canvas;
@@ -20,9 +20,13 @@ export function setupCanvasInteraction(state: State) {
 
     if (gridX === state.game.cat.x && gridY === state.game.cat.y) {
       selectCat(state.game);
-    } else {
-      deselectCat(state.game);
+      return;
     }
+    if (state.game.cat.availablePositions.has(`${gridX},${gridY}`)) {
+      moveCat(state.game, gridX, gridY);
+      return;
+    }
+    deselectCat(state.game);
   }
 
   canvas.addEventListener("click", handleCanvasClick);

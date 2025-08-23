@@ -1,4 +1,5 @@
-import { GRID_END, GRID_START, Witch } from "..";
+import { Witch } from "..";
+import { isOutOfGridBounds, isAlreadyOccupied } from "../cat/pathfinding";
 
 const SKINS: ("🧙‍♀️" | "🧙")[] = ["🧙‍♀️", "🧙"];
 const THRESHOLD_CLOSEST_MANATHAN_DISTANCE_POSSIBLE = 2;
@@ -21,11 +22,8 @@ export function generateWitches(
     } while (
       distance < THRESHOLD_CLOSEST_MANATHAN_DISTANCE_POSSIBLE ||
       distance > THRESHOLD_FAREST_MANATHAN_DISTANCE_POSSIBLE ||
-      witchX < GRID_START ||
-      witchX >= GRID_END ||
-      witchY < GRID_START ||
-      witchY >= GRID_END ||
-      witches.some((w) => w.x === witchX && w.y === witchY)
+      isOutOfGridBounds(witchX, witchY) ||
+      isAlreadyOccupied(witches, witchX, witchY)
     );
 
     witches.push({
