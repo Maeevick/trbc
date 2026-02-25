@@ -3,7 +3,7 @@ import {
   calculateMovementCost,
   isAlreadyOccupied,
   isOutOfGridBounds,
-} from "./pathfinding";
+} from "../game/pathfinding";
 
 function isMovePossible(cost: number | null, available: number) {
   return cost !== null && cost <= available;
@@ -32,9 +32,9 @@ export function selectCat(gameState: GameState) {
           calculateMovementCost(
             gameState,
             { x: gameState.cat.x, y: gameState.cat.y },
-            { x: newX, y: newY },
+            { x: newX, y: newY }
           ),
-          gameState.cat.actions,
+          gameState.cat.actions
         )
       ) {
         gameState.cat.availablePositions.add(`${newX},${newY}`);

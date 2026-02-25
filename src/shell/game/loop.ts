@@ -3,6 +3,9 @@ import { State } from "../..";
 import { type FPSRunner } from "../debug-panel/fps-runner";
 import { updatePositionInfo } from "../info-panel/current-position";
 import { updateActionsInfo } from "../info-panel/current-actions";
+import { updateCurrentTurn } from "../info-panel/current-turn";
+import { updateGameStatus } from "../info-panel/game-status";
+import { updateGameControls } from "./controls";
 import {
   THRESHOLD_TACTICAL_MODE,
   THRESHOLD_TILE_SIZE_MAX_ZOOM,
@@ -16,6 +19,9 @@ export function startGameLoop(state: State, fpsRunner: FPSRunner) {
     renderViewport(state);
     updatePositionInfo(state);
     updateActionsInfo(state);
+    updateCurrentTurn(state);
+    updateGameStatus(state);
+    updateGameControls(state);
     requestAnimationFrame(gameLoop);
   }
   gameLoop();
@@ -143,4 +149,5 @@ function renderViewport(state: State) {
       );
     }
   });
+
 }

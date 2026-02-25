@@ -18,10 +18,30 @@ export function isAlreadyOccupied(witches: Witch[], x: number, y: number) {
   return witches.some((w) => w.x === x && w.y === y);
 }
 
+export function isCatTile(cat: Position, target: Position) {
+  return cat.x === target.x && cat.y === target.y;
+}
+
+export function isCatAdjacentToAnyWitch(gameState: GameState): boolean {
+  const catX = gameState.cat.x;
+  const catY = gameState.cat.y;
+  
+  const adjacentPositions = [
+    { x: catX, y: catY - 1 },
+    { x: catX - 1, y: catY },
+    { x: catX + 1, y: catY },
+    { x: catX, y: catY + 1 }
+  ];
+
+  return adjacentPositions.some(pos => 
+    isAlreadyOccupied(gameState.witches, pos.x, pos.y)
+  );
+}
+
 export function calculateMovementCost(
   gameState: GameState,
   start: Position,
-  target: Position,
+  target: Position
 ): number | null {
   const path = findPathWithBFS(gameState, start, target);
   return path ? path.length - 1 : null;
@@ -30,7 +50,7 @@ export function calculateMovementCost(
 function findPathWithBFS(
   gameState: GameState,
   start: Position,
-  target: Position,
+  target: Position
 ): Position[] | null {
   const queue: { pos: Position; path: Position[] }[] = [
     { pos: start, path: [start] },

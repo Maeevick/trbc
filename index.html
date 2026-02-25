@@ -34,36 +34,55 @@
                 <hr class="panel-separator">
 
                 <div class="panel-middle">
-                    <div class="desktop-controls">
-                        <h3>View Controls</h3>
-                        <div class="control-row">
-                            <div class="zoom-controls">
-                                <button id="zoom-in" class="zoom-btn">+</button>
-                                <button id="zoom-center" class="zoom-center">🔎</button>
-                                <button id="zoom-out" class="zoom-btn">−</button>
+                    <div class="controls-row">
+                        <div class="desktop-controls">
+                            <h3>View Controls</h3>
+                            <div class="control-row">
+                                <div class="zoom-controls">
+                                    <button id="zoom-in" class="zoom-btn">+</button>
+                                    <button id="zoom-center" class="zoom-center">🔎</button>
+                                    <button id="zoom-out" class="zoom-btn">−</button>
+                                </div>
+                                <div class="pan-grid">
+                                    <button id="pan-nw" class="pan-btn">↖️</button>
+                                    <button id="pan-n" class="pan-btn">⬆️</button>
+                                    <button id="pan-ne" class="pan-btn">↗️</button>
+                                    <button id="pan-w" class="pan-btn">⬅️</button>
+                                    <button id="pan-center" class="pan-center">🧭</button>
+                                    <button id="pan-e" class="pan-btn">➡️</button>
+                                    <button id="pan-sw" class="pan-btn">↙️</button>
+                                    <button id="pan-s" class="pan-btn">⬇️</button>
+                                    <button id="pan-se" class="pan-btn">↘️</button>
+                                </div>
                             </div>
-                            <div class="pan-grid">
-                                <button id="pan-nw" class="pan-btn">↖️</button>
-                                <button id="pan-n" class="pan-btn">⬆️</button>
-                                <button id="pan-ne" class="pan-btn">↗️</button>
-                                <button id="pan-w" class="pan-btn">⬅️</button>
-                                <button id="pan-center" class="pan-center">🧭</button>
-                                <button id="pan-e" class="pan-btn">➡️</button>
-                                <button id="pan-sw" class="pan-btn">↙️</button>
-                                <button id="pan-s" class="pan-btn">⬇️</button>
-                                <button id="pan-se" class="pan-btn">↘️</button>
+                        </div>
+
+                        <div class="desktop-controls">
+                            <h3>Game Controls</h3>
+                            <div class="control-row">
+                                <button id="end-turn" class="action-btn" disabled>🔄 End Turn</button>
+                                <button id="unluck-bomb" class="action-btn" disabled>💥 Unluck Bomb</button>
+                                <button id="restart-floor" class="action-btn" style="display: none;">🔄 Restart Floor</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="panel-bottom">
-                    <p class="game-stat">Current Level: 1</p>
-                    <p class="game-stat">Remaining Lives: 9</p>
-                    <p id="action" class="game-stat">Remaining Actions: 5</p>
-                    <p class="game-stat">Remaining Balls: 5</p>
-                    <p class="game-stat">Time Elapsed: 0:00</p>
-                    <p id="position" class="game-stat">Current Position: X:Y</p>
+                    <div class="stats-grid">
+                        <div class="stats-column">
+                            <p class="game-stat">Floor: 1</p>
+                            <p id="total-time" class="game-stat">Total Time: 00:00:00</p>
+                            <p id="level-time" class="game-stat">Level Time: 00:00:00</p>
+                            <p id="score" class="game-stat">Score: 0</p>
+                        </div>
+                        <div class="stats-column">
+                            <p id="current-turn" class="game-stat">Turn: 1</p>
+                            <p id="position" class="game-stat">Position: X:Y</p>
+                            <p class="game-stat">Lives: 9/9</p>
+                            <p id="action" class="game-stat">Actions: 5/5</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -73,22 +92,33 @@
         </section>
 
         <div class="mobile-controls-panel">
-            <div class="control-row">
-                <div class="zoom-controls">
-                    <button id="mobile-zoom-in" class="zoom-btn">+</button>
-                    <button id="mobile-zoom-center" class="zoom-center">🔎</button>
-                    <button id="mobile-zoom-out" class="zoom-btn">−</button>
+            <div class="controls-row">
+                <div class="control-section">
+                    <div class="control-row">
+                        <div class="zoom-controls">
+                            <button id="mobile-zoom-in" class="zoom-btn">+</button>
+                            <button id="mobile-zoom-center" class="zoom-center">🔎</button>
+                            <button id="mobile-zoom-out" class="zoom-btn">−</button>
+                        </div>
+                        <div class="pan-grid">
+                            <button id="mobile-pan-nw" class="pan-btn">↖️</button>
+                            <button id="mobile-pan-n" class="pan-btn">⬆️</button>
+                            <button id="mobile-pan-ne" class="pan-btn">↗️</button>
+                            <button id="mobile-pan-w" class="pan-btn">⬅️</button>
+                            <button id="mobile-pan-center" class="pan-center">🧭</button>
+                            <button id="mobile-pan-e" class="pan-btn">➡️</button>
+                            <button id="mobile-pan-sw" class="pan-btn">↙️</button>
+                            <button id="mobile-pan-s" class="pan-btn">⬇️</button>
+                            <button id="mobile-pan-se" class="pan-btn">↘️</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="pan-grid">
-                    <button id="mobile-pan-nw" class="pan-btn">↖️</button>
-                    <button id="mobile-pan-n" class="pan-btn">⬆️</button>
-                    <button id="mobile-pan-ne" class="pan-btn">↗️</button>
-                    <button id="mobile-pan-w" class="pan-btn">⬅️</button>
-                    <button id="mobile-pan-center" class="pan-center">🧭</button>
-                    <button id="mobile-pan-e" class="pan-btn">➡️</button>
-                    <button id="mobile-pan-sw" class="pan-btn">↙️</button>
-                    <button id="mobile-pan-s" class="pan-btn">⬇️</button>
-                    <button id="mobile-pan-se" class="pan-btn">↘️</button>
+                <div class="control-section">
+                    <div class="control-row">
+                        <button id="mobile-end-turn" class="action-btn" disabled>🔄 End Turn</button>
+                        <button id="mobile-unluck-bomb" class="action-btn" disabled>💥 Unluck Bomb</button>
+                        <button id="mobile-restart-floor" class="action-btn" style="display: none;">🔄 Restart Floor</button>
+                    </div>
                 </div>
             </div>
     </main>

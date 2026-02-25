@@ -10,8 +10,15 @@ import {
 } from "./camera/controls";
 import { startGameLoop } from "./game/loop";
 import { setupCanvasInteraction } from "./game/interaction";
+import { setupGameControls } from "./game/controls";
 
-import { generateWitches, generateGrid, type Position } from "../core";
+import {
+  generateWitches,
+  generateGrid,
+  type Position,
+  CAT_ENTITY,
+} from "../core";
+import { generateCat } from "../core/cat/generate";
 
 export function init() {
   const initialPosition: Position = {
@@ -22,14 +29,12 @@ export function init() {
   const state: State = {
     game: {
       grid: generateGrid(),
-      cat: {
-        x: initialPosition.x,
-        y: initialPosition.y,
-        skin: "🐈‍⬛",
-        actions: 5,
-        availablePositions: new Set(),
-      },
+      cat: generateCat(initialPosition),
       witches: generateWitches(initialPosition.x, initialPosition.y),
+      turnPhase: CAT_ENTITY,
+      turnNumber: 0,
+      isGameOver: false,
+      isCaught: false,
     },
     view: {
       canvas: document.getElementById("canvas") as HTMLCanvasElement,
@@ -45,6 +50,7 @@ export function init() {
   setupCanvasResize(state);
   setupControlButtons(state);
   setupCanvasInteraction(state);
+  setupGameControls(state);
   initializeCameraControls(state);
   startGameLoop(state, runFPS());
 }

@@ -31,6 +31,7 @@
   --header-height: 78px;
   --footer-height: 50.5px;
   --panel-width: 200px;
+  --panel-width-mobile: 80%;
 }
 
 * {
@@ -139,6 +140,21 @@ header h1 {
   justify-content: space-between;
 }
 
+@media (max-width: 599px) {
+  .panel-content {
+    justify-content: flex-start;
+  }
+  
+  .info-panel {
+    width: var(--panel-width-mobile);
+    left: calc(-1 * var(--panel-width-mobile));
+  }
+  
+  .info-panel.expanded {
+    transform: translateX(100%);
+  }
+}
+
 .panel-top {
   margin-bottom: var(--spacing-md);
 }
@@ -160,8 +176,19 @@ header h1 {
   flex-shrink: 0;
 }
 
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.stats-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .game-stat {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   font-size: 0.85rem;
   font-weight: bold;
   color: #fff;
@@ -203,6 +230,18 @@ header h1 {
   color: var(--color-text-subtle);
 }
 
+.controls-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.control-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
 .desktop-controls {
   display: none;
 }
@@ -231,7 +270,8 @@ header h1 {
 }
 
 .pan-btn,
-.zoom-btn {
+.zoom-btn,
+.action-btn {
   background: #333;
   border: 2px solid #555;
   color: #fff;
@@ -248,14 +288,16 @@ header h1 {
 }
 
 .pan-btn:hover,
-.zoom-btn:hover {
+.zoom-btn:hover,
+.action-btn:hover {
   background: #444;
   border-color: #777;
   transform: translateY(-1px);
 }
 
 .pan-btn:active,
-.zoom-btn:active {
+.zoom-btn:active,
+.action-btn:active {
   background: #222;
   transform: translateY(0);
 }
@@ -416,6 +458,7 @@ footer a:hover {
     color: #fff;
     font-size: 1rem;
     text-align: center;
+    width: 100%;
   }
 
   .mobile-controls-panel {

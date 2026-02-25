@@ -1,14 +1,16 @@
 import { Witch } from "..";
-import { isOutOfGridBounds, isAlreadyOccupied } from "../cat/pathfinding";
-
-const SKINS: ("🧙‍♀️" | "🧙")[] = ["🧙‍♀️", "🧙"];
-const THRESHOLD_CLOSEST_MANATHAN_DISTANCE_POSSIBLE = 2;
-const THRESHOLD_FAREST_MANATHAN_DISTANCE_POSSIBLE = 3;
+import { isOutOfGridBounds, isAlreadyOccupied } from "../game/pathfinding";
+import {
+  SKINS,
+  THRESHOLD_CLOSEST_MANATHAN_DISTANCE_POSSIBLE,
+  THRESHOLD_FAREST_MANATHAN_DISTANCE_POSSIBLE,
+  DEFAULT_WITCH_ACTIONS,
+} from "./config";
 
 export function generateWitches(
   catX: number,
   catY: number,
-  witchesCount: number = 2,
+  witchesCount: number = 2
 ): Witch[] {
   const witches: Witch[] = [];
 
@@ -30,6 +32,7 @@ export function generateWitches(
       x: witchX,
       y: witchY,
       skin: SKINS[Math.floor(Math.random() * SKINS.length)],
+      actions: DEFAULT_WITCH_ACTIONS,
     });
   }
 

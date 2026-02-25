@@ -1,28 +1,9 @@
 import { expect, test } from "vitest";
 import { selectCat, deselectCat } from "./selection";
-import { GameState, generateGrid, TheRebelBlackCat } from "..";
-
-function createTestGameState(
-  catPosition: { x: number; y: number },
-  actions: number = 5,
-): GameState {
-  const cat: TheRebelBlackCat = {
-    x: catPosition.x,
-    y: catPosition.y,
-    skin: "🐈‍⬛",
-    actions,
-    availablePositions: new Set(),
-  };
-
-  return {
-    grid: generateGrid(),
-    cat,
-    witches: [],
-  };
-}
+import { createTestDefaultGameStateAtx50y50 } from "../createTestGameState";
 
 test("when deselecting cat, it clears available positions", () => {
-  const gameState = createTestGameState({ x: 50, y: 50 });
+  const gameState = createTestDefaultGameStateAtx50y50();
   gameState.cat.availablePositions.add("49,50");
   gameState.cat.availablePositions.add("51,50");
 
@@ -32,7 +13,7 @@ test("when deselecting cat, it clears available positions", () => {
 });
 
 test("when selecting cat with 1 action, it finds 4 adjacent positions", () => {
-  const gameState = createTestGameState({ x: 50, y: 50 }, 1);
+  const gameState = createTestDefaultGameStateAtx50y50({ actions: 1 });
 
   selectCat(gameState);
 
@@ -44,7 +25,7 @@ test("when selecting cat with 1 action, it finds 4 adjacent positions", () => {
 });
 
 test("when selecting cat with 2 actions, it finds all positions within Manhattan distance 2", () => {
-  const gameState = createTestGameState({ x: 50, y: 50 }, 2);
+  const gameState = createTestDefaultGameStateAtx50y50({ actions: 2 });
 
   selectCat(gameState);
 
@@ -58,7 +39,10 @@ test("when selecting cat with 2 actions, it finds all positions within Manhattan
 });
 
 test("when selecting cat at grid edge, it excludes out-of-bounds positions", () => {
-  const gameState = createTestGameState({ x: 0, y: 0 }, 2);
+  const gameState = createTestDefaultGameStateAtx50y50({
+    catPosition: { x: 0, y: 0 },
+    actions: 2,
+  });
 
   selectCat(gameState);
 
@@ -70,7 +54,10 @@ test("when selecting cat at grid edge, it excludes out-of-bounds positions", () 
 });
 
 test("when selecting cat near grid boundary, it excludes positions >= 100", () => {
-  const gameState = createTestGameState({ x: 99, y: 99 }, 2);
+  const gameState = createTestDefaultGameStateAtx50y50({
+    catPosition: { x: 99, y: 99 },
+    actions: 2,
+  });
 
   selectCat(gameState);
 
@@ -82,11 +69,13 @@ test("when selecting cat near grid boundary, it excludes positions >= 100", () =
 });
 
 test("when selecting cat with witch blocking position, it excludes witch position", () => {
-  const gameState = createTestGameState({ x: 50, y: 50 }, 2);
-  gameState.witches = [
-    { x: 51, y: 50, skin: "🧙‍♀️" },
-    { x: 49, y: 51, skin: "🧙" },
-  ];
+  const gameState = createTestDefaultGameStateAtx50y50({
+    actions: 2,
+    witches: [
+      { x: 51, y: 50, skin: "🧙‍♀️", actions: 0 },
+      { x: 49, y: 51, skin: "🧙", actions: 0 },
+    ],
+  });
 
   selectCat(gameState);
 
@@ -97,7 +86,7 @@ test("when selecting cat with witch blocking position, it excludes witch positio
 });
 
 test("when selecting cat with 0 actions, it finds no available positions", () => {
-  const gameState = createTestGameState({ x: 50, y: 50 }, 0);
+  const gameState = createTestDefaultGameStateAtx50y50({ actions: 0 });
 
   selectCat(gameState);
 
@@ -105,7 +94,7 @@ test("when selecting cat with 0 actions, it finds no available positions", () =>
 });
 
 test("when selecting cat, it excludes cat's current position", () => {
-  const gameState = createTestGameState({ x: 50, y: 50 }, 3);
+  const gameState = createTestDefaultGameStateAtx50y50({ actions: 3 });
 
   selectCat(gameState);
 
@@ -113,7 +102,7 @@ test("when selecting cat, it excludes cat's current position", () => {
 });
 
 test("when selecting cat clears previous available positions", () => {
-  const gameState = createTestGameState({ x: 50, y: 50 }, 1);
+  const gameState = createTestDefaultGameStateAtx50y50({ actions: 1 });
   gameState.cat.availablePositions.add("10,10");
   gameState.cat.availablePositions.add("20,20");
 
@@ -125,12 +114,14 @@ test("when selecting cat clears previous available positions", () => {
 });
 
 test("when selecting cat with multiple witches, it excludes all witch positions", () => {
-  const gameState = createTestGameState({ x: 50, y: 50 }, 1);
-  gameState.witches = [
-    { x: 49, y: 50, skin: "🧙" },
-    { x: 51, y: 50, skin: "🧙‍♀️" },
-    { x: 50, y: 49, skin: "🧙‍♀️" },
-  ];
+  const gameState = createTestDefaultGameStateAtx50y50({
+    actions: 1,
+    witches: [
+      { x: 49, y: 50, skin: "🧙", actions: 0 },
+      { x: 51, y: 50, skin: "🧙‍♀️", actions: 0 },
+      { x: 50, y: 49, skin: "🧙‍♀️", actions: 0 },
+    ],
+  });
 
   selectCat(gameState);
 

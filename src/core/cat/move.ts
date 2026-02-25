@@ -1,11 +1,11 @@
 import { GameState } from "../state";
 import { selectCat } from "./selection";
-import { calculateMovementCost } from "./pathfinding";
+import { calculateMovementCost } from "../game/pathfinding";
 
 export function moveCat(
   gameState: GameState,
   targetX: number,
-  targetY: number,
+  targetY: number
 ): boolean {
   const targetKey = `${targetX},${targetY}`;
 
@@ -16,7 +16,7 @@ export function moveCat(
   const movementCost = calculateMovementCost(
     gameState,
     { x: gameState.cat.x, y: gameState.cat.y },
-    { x: targetX, y: targetY },
+    { x: targetX, y: targetY }
   );
 
   if (movementCost === null) {
